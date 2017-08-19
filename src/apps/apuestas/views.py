@@ -6,25 +6,16 @@ from django.shortcuts import render
 from django.views import View
 from django.template import loader
 from django.http import HttpResponse
-from .forms import PreguntaForm
+from .forms import PreguntaForm, ApuestasForm
 from .models import Pregunta
 
 
 @login_required
 def apuestas_list(request):
-    form = PreguntaForm()
-    if request.method == 'POST':
-        form = PreguntaForm(data=request.POST)
-        if form.is_valid():
-            pregunta = form.save(commit=False)
-            pregunta.create_user = request.user
-            pregunta.update_user = request.user
-            pregunta.save()
     template = loader.get_template('apuestas_list.html')
     pregunta_list = Pregunta.objects.all()
     context = {
         'username': request.user.username,
-        'form': form,
         'pregunta_list': pregunta_list
     }
     return HttpResponse(template.render(context, request))
@@ -54,3 +45,21 @@ class PreguntaView(LoginRequiredMixin, View):
             'form': form
         }
         return render(request, self.template_name, context)
+
+
+@login_required
+def apuesta(request, id_pregunta):
+    template = loader.get_template('apuesta.html')
+    pregunta = Pregunta.objects.get(pk=id_pregunta)
+    form = ApuestasForm(pregunta, request.user)
+    if request.method == 'POST':
+        form = ApuestasForm(pregunta, request.user, data=request.POST)
+        if form.is_valid():
+            respuesta_apuesta = form.save(commit=False)
+            respuesta_apuesta.user = request.user
+            respuesta_apuesta.save()
+    context = {
+        'pregunta': pregunta,
+        'form': form
+    }
+    return HttpResponse(template.render(context, request))
