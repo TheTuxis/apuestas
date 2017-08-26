@@ -51,6 +51,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+LOGIN_REDIRECT_URL = '/apuestas/'
+
 ROOT_URLCONF = 'apuestas.urls'
 
 TEMPLATES = [
