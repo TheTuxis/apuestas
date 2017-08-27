@@ -20,6 +20,16 @@ class Pregunta(models.Model):
     def respuestas_validas(self):
         return RespuestaValidas.objects.filter(pregunta=self)
 
+    def get_result(self):
+        #from django.db.models import Count
+        #Apuestas.objects.filter(pregunta=self).values('respuesta_valida__text').annotate(total=Count('respuesta_valida'))
+        respuestas_validas = RespuestaValidas.objects.filter(pregunta=self)
+        dic = []
+        for x in respuestas_validas:
+            dic.append((x.text, Apuestas.objects.filter(respuesta_valida=x).count()))
+        return dic
+
+
 
 class RespuestaValidas(models.Model):
     pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
