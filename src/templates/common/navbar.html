@@ -9,6 +9,7 @@
         <a class="nav-item nav-link" href="#">{{ request.user }}</a>
         <a class="nav-item nav-link" href="/logout/">Logout</a>
         {% else %}
+        <a class="nav-item nav-link" href="javascript: open_modal_register()">Register</a>
         <a class="nav-item nav-link" href="/accounts/login/">Login</a>
         {% endif %}
         {% comment %}
