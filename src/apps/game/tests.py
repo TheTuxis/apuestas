@@ -71,4 +71,5 @@ class abm_apuestas(TestCase):
         validator = True
         if response.status_code == '302':
             validator = False
+        validator = False
         self.assertTrue(validator)
