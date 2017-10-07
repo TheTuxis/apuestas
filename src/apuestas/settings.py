@@ -25,7 +25,7 @@ SECRET_KEY = '*^ky66ou6v0sfqkr&2+(byph00c19wgm#x6v+mrpsw^4#+6aeg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.159:8000']
 
 
 # Application definition
@@ -131,8 +131,8 @@ REST_FRAMEWORK = {
 }
 
 try:
-    from .local_settings import *
-except:
-    pass
+    from local_settings import *
+except Exception as e:
+    print e
 
 # AFTER IMPORT LOCAL_SETTINGS
